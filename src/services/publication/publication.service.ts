@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Publication } from '../../entitys/publication.entity';
 
@@ -20,7 +20,15 @@ export class PublicationService {
     findAll(): Publication[] { return this.publications; }
 
     findOne( id: string ): Publication { 
-        return this.publications.find( ( item ) => item.id === id ); 
+
+        const response = this.publications.find( ( item ) => item.id === id ); 
+
+        if ( !response ) {
+            throw new NotFoundException(`Publication with ID => ${ id }, not found.`);
+        }
+
+        return response;
+
     }
 
     create( payload: Publication ): Publication {
@@ -39,6 +47,8 @@ export class PublicationService {
     }
 
     update( id: string, payload: Publication ): Publication {
+        
+        this.findOne( id );
 
         this.publications = this.publications.map( 
                                         ( publication ) => 
@@ -51,9 +61,13 @@ export class PublicationService {
 
     }
 
-    delete( id: string ) {
+    delete( id: string ): boolean {  
+
+        this.findOne( id );
 
         this.publications = this.publications.filter( ( publication ) => publication.id !== id );
+
+        return true;
 
     }
 }
