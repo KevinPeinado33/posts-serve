@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Publication } from '../../entitys/publication.entity';
+import { CreatePublicationDto, UpdatePublicationDto } from '../../dtos/publication.dto';
 
 @Injectable()
 export class PublicationService {
@@ -31,7 +32,7 @@ export class PublicationService {
 
     }
 
-    create( payload: Publication ): Publication {
+    create( payload: CreatePublicationDto ): Publication {
 
         this.counter++;
 
@@ -46,7 +47,7 @@ export class PublicationService {
 
     }
 
-    update( id: string, payload: Publication ): Publication {
+    update( id: string, payload: UpdatePublicationDto ) {
         
         this.findOne( id );
 

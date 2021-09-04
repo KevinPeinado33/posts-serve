@@ -12,6 +12,7 @@ import {
 
 import { PublicationService } from '../../services/publication/publication.service';
 import { Publication } from '../../entitys/publication.entity';
+import { CreatePublicationDto, UpdatePublicationDto } from '../../dtos/publication.dto';
 
 @Controller('publication')
 export class PublicationController {
@@ -33,7 +34,7 @@ export class PublicationController {
 
     @Post()
     @HttpCode( HttpStatus.CREATED )
-    create( @Body() publication: Publication ): Publication {
+    create( @Body() publication: CreatePublicationDto ): Publication {
 
         return this.publicationService.create( publication );
 
@@ -41,7 +42,7 @@ export class PublicationController {
 
     @Put(':publicationId')
     @HttpCode( HttpStatus.OK )
-    update( @Param('publicationId') publicationId: string, @Body() payload: Publication ): Publication {
+    update( @Param('publicationId') publicationId: string, @Body() payload: UpdatePublicationDto ) {
 
         return this.publicationService.update( publicationId, payload );
 
